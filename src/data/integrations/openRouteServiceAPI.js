@@ -24,17 +24,30 @@ export class orsAPI {
 
             const rota = response.data.routes[0];
         } catch(error) {
-            return error;
+            throw new ExternalAPIError(error.message, error.response.status)
         }
 
     }
 
     async getDistanciaAPe(origem, destino) {
+        try {
+            const response = await axios.post(
+                `${this.baseURL}foot`,
+                {
+                    coordinates: [origem, destino],
+                },
+                {
+                    headers: {
+                        "Authorization": ORS_API_KEY,
+                        "Content-Type": "application/json",
+                },
+                }
+            );
 
+            const rota = response.data.routes[0];
+        } catch(error) {
+            throw new ExternalAPIError(error.message, error.response.status)
+        }
     }
-
-    // const rota = response.data.routes[0];
-    // console.log(`Distância: ${(rota.summary.distance / 1000).toFixed(2)} km`);
-    // console.log(`Duração: ${(rota.summary.duration / 60).toFixed(2)} min`);
 }
 

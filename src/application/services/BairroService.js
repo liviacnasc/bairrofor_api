@@ -1,4 +1,5 @@
 import BairroRepository from "../../data/repositories/bairro.js";
+import { ExternalAPIError, NotFoundError } from "../../helpers/errors.js";
 import IntegrationService from "./IntegrationService.js";
 
 
@@ -8,19 +9,25 @@ const bairroRepository = new BairroRepository();
 export default class BairroService {
     
     async getBairroById(id) {
-        return await bairroRepository.findBairroByPmfId(id);
-    }
+        try {
+            const response = await bairroRepository.findBairroByPmfId(id);
 
-    async getIdBairroByCEP(cep) {
-        const nome = integrationService.getBairroByCEP(cep);
+            return response;
 
-        return bairroRepository.getBairroByNome(nome);
+        } catch (error) {
+            throw new NotFoundError(error.message)
+        }
     }
 
     async getBairroByCEP(cep) {
-        const nome = await integrationService.getBairroByCEP(cep);
+        try {
+            const nome = await integrationService.getBairroByCEP(cep);
+            
+            return (await bairroRepository.getBairroByNome(nome)).rows;
 
-        return (await bairroRepository.getBairroByNome(nome)).rows;
+        } catch (error) {
+            throw new ExternalAPIError(error.message, error.statusCode)
+        }
     }
 
 

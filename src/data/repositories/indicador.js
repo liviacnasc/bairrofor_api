@@ -2,22 +2,42 @@ import { query } from "../../database/database.js";
 
 export default class IndicadorRepository {
 
-    findIndicadorByPmfId = async (id) => {
-        return query(
-            'SELECT * FROM bairro WHERE id_pmf = $1',
-            [categoria]
-        ).catch(() => {
-            throw new Error("Não foi possível encontrar um bairro com o id especificado.")
-        });
+    async getAllIndicadores() {
+        const response = await query(
+            'SELECT * FROM indicador',
+            []
+        )
+
+        if(response.rowCount = 0){
+            throw new NotFoundError("Não foi possível encontrar um bairro com o id especificado.")
+        }
+        
+        return response.rows[0];
+    }
+
+    async findIndicadorByPmfId(id) {
+        const response = await query(
+            'SELECT * FROM indicador WHERE indicador_id = $1',
+            [id]
+        )
+
+        if(response.rowCount = 0){
+            throw new NotFoundError("Não foi possível encontrar um bairro com o id especificado.")
+        }
+        
+        return response.rows[0];
     }
     
-    findIndicadorByCategoria = async (categoria) => {
-        return query(
-            'SELECT * FROM bairro WHERE categoria = $1',
+    async findIndicadorByCategoria(categoria) {
+        const response = await query(
+            // TO DO
             [categoria]
-        ).catch(() => {
-            throw new Error("Não foi possível encontrar um bairro com o id especificado.")
-        });
+        )
+        if(response.rowCount = 0){
+            throw new NotFoundError("Não foi possível encontrar um bairro com o id especificado.")
+        }
+        
+        return response.rows[0];
     }
 
 }

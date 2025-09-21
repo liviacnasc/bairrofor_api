@@ -1,3 +1,4 @@
+import { ExternalAPIError, NotFoundError } from "../../helpers/errors.js";
 import BairroService from "../services/BairroService.js";
 import IntegrationService from "../services/IntegrationService.js";
 
@@ -12,17 +13,7 @@ export default class Controller {
 
             return result;
         } catch(error) {
-
-        }
-    }
-
-    async getResultadoComparacao(bairro1, bairro2, localInteresse) {
-        try {
-            const result = await bairroService.getBairroById(id)
-
-            return result;
-        } catch(error) {
-
+            throw new NotFoundError(error.message)
         }
     }
 
@@ -32,7 +23,7 @@ export default class Controller {
 
             return result;
         } catch (error) {
-            
+            throw new ExternalAPIError(error.message, error.statusCode)
         }
 
     }
@@ -43,7 +34,7 @@ export default class Controller {
 
             return result;
         } catch (error) {
-            
+            throw new ExternalAPIError(error.message, error.statusCode)
         }
 
     }

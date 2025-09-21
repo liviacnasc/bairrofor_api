@@ -1,32 +1,42 @@
 import { query } from "../../database/database.js";
+import { NotFoundError } from "../../helpers/errors.js";
 
 
 export default class BairroRepository {
+
+    async getAllBairros() {
+        const response = await query(
+            'SELECT * FROM bairro',
+        ).catch(() => {
+            throw new NotFoundError("Não foi possível encontrar bairros.")
+        });
+
+        return response.rows[0];
+    }
 
      async findBairroByPmfId(id) {
         const response = await query(
             'SELECT * FROM bairro WHERE id_pmf = $1',
             [id]
-        ).catch(() => {
-            throw new Error("Não foi possível encontrar um bairro com o id especificado.")
-        });
-
-        console.log(response)
-
+        )
+        if(response.rowCount == 0){
+            throw new NotFoundError("Não foi possível encontrar um bairro com o id especificado.")
+        }
+        
         return response.rows[0];
     }
 
-    async getBairrosByPmfId(id1, id2) {
-        return await query(
-            'SELECT * FROM bairro WHERE id_pmf IN ($1, $2)',
-            [id1, id2]
-        ).catch(() => {
-            throw new Error("Não foi possível encontrar os bairros com os ids especificados.")
-        });
-    }
+    // async getBairrosByPmfId(id1, id2) {
+    //     return await query(
+    //         'SELECT * FROM bairro WHERE id_pmf IN ($1, $2)',
+    //         [id1, id2]
+    //     ).catch(() => {
+    //         throw new NotFoundError("Não foi possível encontrar os bairros com os ids especificados.")
+    //     });
+    // }
     
     async getBairroByNome(nome) {
-        return await query(
+        const response = await query(
             `SELECT bairro.id_pmf,
                     bairro.nome AS bairro_nome,
                     json_object_agg(indicador_por_categoria.categoria, indicador_por_categoria.indicador) AS indicador
@@ -44,9 +54,13 @@ export default class BairroRepository {
             WHERE bairro.nome IN ($1)
             GROUP BY bairro.id_pmf, bairro.nome`,
             [nome]
-        ).catch(() => {
-            throw new Error("Não foi possível encontrar os bairros com os ids especificados.")
-        });
+        )
+
+        if(response.rowCount == 0){
+            throw new NotFoundError("Não foi possível encontrar um bairro com o id especificado.")
+        }
+        
+        return response.rows[0];
     }
 
 }
