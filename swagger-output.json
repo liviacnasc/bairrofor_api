@@ -1,0 +1,205 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Bairros Fortaleza",
+    "description": "Some description..."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/bairro/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/localizar/numero/{numero}/cep/{cep}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "numero",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cep",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/pesquisar": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "cep",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/comparar": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/comparadorSchema"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/comparadorSchema"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "comparadorSchema": {
+        "type": "object",
+        "properties": {
+          "endereco_1": {
+            "type": "object",
+            "properties": {
+              "numero": {
+                "type": "string",
+                "example": "1321"
+              },
+              "cep": {
+                "type": "string",
+                "example": "60811-905"
+              }
+            },
+            "required": [
+              "numero",
+              "cep"
+            ]
+          },
+          "endereco_2": {
+            "type": "object",
+            "properties": {
+              "numero": {
+                "type": "string",
+                "example": "71"
+              },
+              "cep": {
+                "type": "string",
+                "example": "60421440"
+              }
+            },
+            "required": [
+              "numero",
+              "cep"
+            ]
+          }
+        },
+        "required": [
+          "endereco_1",
+          "endereco_2"
+        ],
+        "xml": {
+          "name": "comparadorSchema"
+        }
+      },
+      "bairroId": {
+        "type": "object",
+        "properties": {
+          "id_pmf": {
+            "type": "string",
+            "example": "77"
+          },
+          "bairro_nome": {
+            "type": "string",
+            "example": "Rachel de Queiroz"
+          },
+          "indicador": {
+            "type": "object",
+            "properties": {
+              "Socioeconômico": {
+                "type": "object",
+                "properties": {
+                  "IDH Renda": {
+                    "type": "number",
+                    "example": 0.115
+                  },
+                  "IDH": {
+                    "type": "number",
+                    "example": 0.181
+                  },
+                  "IDH Educação": {
+                    "type": "number",
+                    "example": 0.948
+                  }
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "bairroId"
+        }
+      }
+    }
+  }
+}
