@@ -1,31 +1,77 @@
 
+export class IndicadorService {
 
-function calcularEscore(bairro, minMax) {
-  const indicadores = bairro.indicadores;
+	comparar(bairro1, bairro2) {
+		const populacaoResultado = this.comparadorPopulacao(bairro1, bairro2)
+		const areaResultado = this.comparadorArea(bairro1, bairro2)
+		const idhResultado = this.comparadorIDH(bairro1, bairro2)
+		const idhRendaResultado = this.comparadorIDHRenda(bairro1, bairro2)
+		const idhEducacaoResultado = this.comparadorIDHEducacao(bairro1, bairro2)
 
-  const normalizados = Object.entries(indicadores).map(([nome, valor]) => {
-    const { min, max } = minMax[nome];
-    return (valor - min) / (max - min);
-  });
+		return {
+			resultados: {
+				populacao: populacaoResultado,
+				area: areaResultado,
+				idh: idhResultado,
+				idhRenda: idhRendaResultado,
+				idhEducacao: idhEducacaoResultado
+			}
+		}
+	}
 
-  const total = normalizados.reduce((acc, v) => acc + v, 0);
-  return total / normalizados.length; // média final normalizada
+	comparadorPopulacao(bairro1, bairro2) {
+		const populacao1 = bairro1.indicadores['População']['População'];
+		const populacao2 = bairro2.indicadores['População']['População'];
+
+		if(populacao1 > populacao2) {
+			return bairro1.bairro_nome;
+		}
+
+		return bairro2.bairro_nome;
+	}
+
+	comparadorArea(bairro1, bairro2) {
+		const area1 = bairro1.indicadores['Território']['Área']
+		const area2 = bairro2.indicadores['Território']['Área']
+
+		if(area1 > area2) {
+			return bairro1.bairro_nome
+		}
+
+		return bairro2.bairro_nome;
+	}
+
+	comparadorIDH(bairro1, bairro2) {
+		const idh1 = bairro1.indicadores['Socioeconômico']['IDH']
+		const idh2 = bairro2.indicadores['Socioeconômico']['IDH']
+
+		if(idh1 > idh2) {
+			return bairro1.bairro_nome
+		}
+
+		return bairro2.bairro_nome;
+	}
+
+	comparadorIDHRenda(bairro1, bairro2) {
+		const idhRenda1 = bairro1.indicadores['Socioeconômico']['IDH Renda']
+		const idhRenda2 = bairro2.indicadores['Socioeconômico']['IDH Renda']
+
+		if(idhRenda1 > idhRenda2) {
+			return bairro1.bairro_nome
+		}
+
+		return bairro2.bairro_nome;
+	}
+
+	comparadorIDHEducacao(bairro1, bairro2) {
+		const idhEducacao1 = bairro1.indicadores['Socioeconômico']['IDH Educação']
+		const idhEducacao2 = bairro2.indicadores['Socioeconômico']['IDH Educacão']
+
+		if(idhEducacao1 > idhEducacao2) {
+			return bairro1.bairro_nome
+		}
+
+		return bairro2.bairro_nome;
+	}
+
 }
-
-// Exemplo de uso:
-const bairro = {
-  nome: "Bairro A",
-  indicadores: {
-    renda: 1500,
-    educacao: 0.75,
-    ciclovias: 12
-  }
-};
-
-const minMax = {
-  renda: { min: 1000, max: 5000 },
-  educacao: { min: 0, max: 1 },
-  ciclovias: { min: 0, max: 30 }
-};
-
-console.log("Escore do bairro:", calcularEscore(bairro, minMax));

@@ -1,21 +1,21 @@
 import axios from "axios";
 
 export class NominatimAPI {
-	constructor() {
-		this.baseURL = "https://nominatim.openstreetmap.org/";
-	}
+  constructor() {
+    this.baseURL = "https://nominatim.openstreetmap.org/";
+  }
 
-	async getEndereco(numero, nomeRua) {
-		try {
-			const response = await axios.get(`${this.baseURL}/search?q=${encodeURI(numero + " " + nomeRua)}&format=json`);
+  async getLocalizacao(numero, nomeRua) {
+    try {
+      const response = await axios.get(`${this.baseURL}/search?q=${encodeURI(numero + " " + nomeRua)}&format=json`);
 
-			return {
-				lat: response.data[0].lat,
-				long: response.data[0].lon
-			}
-		} catch (error) {
-			throw new ExternalAPIError(error.message, error.response.status)
-		}
-	}
+      return {
+        lat: response.data[0].lat,
+        long: response.data[0].lon
+      }
+    } catch (error) {
+      throw new ExternalAPIError(error.message, error.response.status)
+    }
+  }
 
 }

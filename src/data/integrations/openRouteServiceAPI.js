@@ -1,12 +1,13 @@
 import axios from "axios";
-import Openrouteservice from 'openrouteservice-js'
+import { ExternalAPIError } from "../../helpers/errors.js";
+import { config } from "dotenv";
+config();
 
-let orsDirections = new Openrouteservice.Directions({ api_key: process.env.OPENROUTESERVICE_API_KEY });
-
-export class orsAPI {
+export class OrsAPI {
     constructor() {
         this.baseURL = "https://api.openrouteservice.org/v2/directions/";
     }
+
     async getDistanciaPorCarro(origem, destino){
         try {
             const response = await axios.post(
@@ -16,13 +17,15 @@ export class orsAPI {
                 },
                 {
                     headers: {
-                        "Authorization": ORS_API_KEY,
+                        "Authorization": process.env.OPENROUTESERVICE_API_KEY,
                         "Content-Type": "application/json",
                 },
                 }
             );
 
-            const rota = response.data.routes[0];
+            console.log(response.data.routes[0])
+
+            return response.data.summary;
         } catch(error) {
             throw new ExternalAPIError(error.message, error.response.status)
         }
@@ -32,19 +35,21 @@ export class orsAPI {
     async getDistanciaAPe(origem, destino) {
         try {
             const response = await axios.post(
-                `${this.baseURL}foot`,
+                `${this.baseURL}foot-walking`,
                 {
                     coordinates: [origem, destino],
                 },
                 {
                     headers: {
-                        "Authorization": ORS_API_KEY,
+                        "Authorization": process.env.OPENROUTESERVICE_API_KEY,
                         "Content-Type": "application/json",
                 },
                 }
             );
 
-            const rota = response.data.routes[0];
+            console.log(response.data.routes[0])
+
+            return response.data.summary;
         } catch(error) {
             throw new ExternalAPIError(error.message, error.response.status)
         }

@@ -2,10 +2,10 @@
   "name": "bairrofor_api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon server",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run swagger && nodemon server",
+    "test": "jest",
     "swagger": "node swagger.js"
   },
   "keywords": [],
@@ -23,6 +23,7 @@
     "pg": "^8.16.3"
   },
   "devDependencies": {
+    "jest": "^30.1.3",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1"
   }

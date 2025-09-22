@@ -11,19 +11,9 @@
     }
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/bairro/{id}": {
       "get": {
-        "description": "",
+        "description": "Recebe o id de um bairro e retorna dados básicos",
         "parameters": [
           {
             "name": "id",
@@ -97,6 +87,33 @@
           }
         },
         "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "origem": {
+                    "example": "any"
+                  },
+                  "destino": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calcular-distancia": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
           "required": true,
           "content": {
             "application/json": {
@@ -119,7 +136,7 @@
       "comparadorSchema": {
         "type": "object",
         "properties": {
-          "endereco_1": {
+          "origem": {
             "type": "object",
             "properties": {
               "numero": {
@@ -136,7 +153,7 @@
               "cep"
             ]
           },
-          "endereco_2": {
+          "destino": {
             "type": "object",
             "properties": {
               "numero": {
@@ -155,8 +172,8 @@
           }
         },
         "required": [
-          "endereco_1",
-          "endereco_2"
+          "origem",
+          "destino"
         ],
         "xml": {
           "name": "comparadorSchema"

@@ -1,18 +1,13 @@
 import express from 'express';
 import Controller from '../application/controllers/controller.js';
-import { NotFoundError } from '../helpers/errors.js';
 
 const router = express.Router();
 const controller = new Controller();
 
-router.get('/', (req, res) => {
-	res.status(200).send({
-		success: 'true',
-		version: '1.0.0',
-	});
-});
-
 router.get('/bairro/:id', async (req, res) => {
+    /* #swagger.description = 'Recebe o id de um bairro e retorna dados básicos'
+
+	*/
 	try {
 		const result = await controller.getBairroById(req.params.id);
 
@@ -61,19 +56,14 @@ router.get('/pesquisar', async (req, res) => {
 	}
 });
 
-router.post('/calcular-distancia', async (req, res) => {
-	/*  #swagger.requestBody = {
-			required: true,
-			schema: {$ref: "#/components/schemas/comparadorSchema"}
-		  }
-	*/
+router.post('/comparar', async (req, res) => {
 	try {
-			const result = await controller.comparar(req.body.origem, req.body.destino)
-		
-			res.status(200).send({
-				success: 'true',
-				body: result
-			});
+		const result = await controller.comparar(req.body.origem, req.body.destino)
+	
+		res.status(200).send({
+			success: 'true',
+			body: result
+		});
 	} catch (error) {
 		res.status(error.statusCode).send({
 			sucess: 'false',
@@ -82,5 +72,25 @@ router.post('/calcular-distancia', async (req, res) => {
 	}
 });
 
+router.post('/calcular-distancia', async (req, res) => {
+	/*  #swagger.requestBody = {
+			required: true,
+			schema: {$ref: "#/components/schemas/comparadorSchema"}
+		  }
+	*/
+	try {
+		const result = await controller.getDistancia(req.body.origem, req.body.destino)
+	
+		res.status(200).send({
+			success: 'true',
+			body: result
+		});
+	} catch (error) {
+		res.status(error.statusCode).send({
+			sucess: 'false',
+			message: error.message
+		})
+	}
+});
 
 export default router;

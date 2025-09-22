@@ -23,7 +23,18 @@ export default class BairroService {
         try {
             const nome = await integrationService.getBairroByCEP(cep);
             
-            return (await bairroRepository.getBairroByNome(nome)).rows;
+            return await bairroRepository.getBairroByNome(nome);
+
+        } catch (error) {
+            throw new ExternalAPIError(error.message, error.statusCode)
+        }
+    }
+
+    async getComparador(origem, destino, localInteresse) {
+        try {
+            const nome = await integrationService.getBairroByCEP(cep);
+            
+            return await bairroRepository.getBairroByNome(nome);
 
         } catch (error) {
             throw new ExternalAPIError(error.message, error.statusCode)
