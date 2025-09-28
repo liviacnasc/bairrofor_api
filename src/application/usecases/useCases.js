@@ -67,7 +67,7 @@ export const compararBairrosUseCase = async (origem, destino, localInteresse) =>
 
         const comparacoes = comparar(localidades[0].dadosBairro, localidades[1].dadosBairro)
 
-        return respostaSucesso(comparacoes.statusCode, {
+        return respostaSucesso(200, {
             resultadosComparacao: comparacoes.resultados,
             dadosBairros: localidades,
             distanciasERotas: distanciasERotas

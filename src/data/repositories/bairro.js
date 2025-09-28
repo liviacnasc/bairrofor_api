@@ -16,7 +16,11 @@ export default function bairroRepository() {
             try {
                 const response = await query('SELECT * FROM bairro WHERE id_pmf = $1', [id]);
 
-                return respostaSucesso(200, response.rows)
+                if(response.rowCount == 0){
+                    return respostaErroPadrao(404, `Não foram encontrados indicadores: ${error}`)
+                }
+                
+                return respostaSucesso(200, response.rows[0])
             } catch (error) {
                 return respostaErroPadrao(404, `Não foram encontrado o bairro com o id indicado: ${error}`)
             }

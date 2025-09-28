@@ -12,14 +12,14 @@ router.get('/bairro/:id', async (req, res) => {
 	try {
 		const result = await oController.getBairroById(req.params.id);
 
-		res.status(200).send({
-			success: 'true',
+		res.status(result.statusCode).send({
+			success: result.success,
 			body: result.value
 		});
 
 	} catch (error) {
 		res.status(error.statusCode).send({
-			sucess: 'false',
+			success: false,
 			message: error.message
 		})
 	}
@@ -33,13 +33,13 @@ router.get('/localizar/numero/:numero/cep/:cep', async (req, res) => {
 	try {
 		const result = await oController.getLatLongbyCEPeNumero(req.params.numero, req.params.cep);
 	
-		res.status(200).send({
-			success: 'true',
+		res.status(result.statusCode).send({
+			success: result.success,
 			body: result.value
 		});
 	} catch (error) {
 		res.status(error.statusCode).send({
-			sucess: 'false',
+			success: false,
 			message: error.message
 		})
 	}
@@ -53,13 +53,13 @@ router.get('/pesquisar', async (req, res) => {
 	try {
 		const result = await oController.getInfobyCEP(req.query.cep)
 	
-		res.status(200).send({
-			success: 'true',
+		res.status(result.statusCode).send({
+			success: result.success,
 			body: result.value
 		});
 	} catch (error) {
 		res.status(error.statusCode).send({
-			sucess: 'false',
+			success: false,
 			message: error.message
 		})
 	}
@@ -77,13 +77,13 @@ router.post('/comparar', async (req, res) => {
 	try {
 		const result = await oController.comparar(req.body.origem, req.body.destino, req.body.localDeInteresse)
 	
-		res.status(200).send({
-			success: 'true',
+		res.status(result.statusCode).send({
+			success: result.success,
 			body: result.value
 		});
 	} catch (error) {
 		res.status(error.statusCode).send({
-			sucess: 'false',
+			success: false,
 			message: error.message
 		})
 	}
@@ -100,13 +100,13 @@ router.post('/calcular-distancia', async (req, res) => {
 	try {
 		const result = await oController.getDistancia(req.body.origem, req.body.destino)
 	
-		res.status(200).send({
-			success: 'true',
+		res.status(result.statusCode).send({
+			success: result.success,
 			body: result.value
 		});
 	} catch (error) {
 		res.status(error.statusCode).send({
-			sucess: 'false',
+			success: false,
 			message: error.message
 		})
 	}
