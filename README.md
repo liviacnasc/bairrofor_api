@@ -19,19 +19,19 @@
 
 ### Passo a passo
 
-1. Clonar o repositório
+**1. Clonar o repositório**
 
 ```
 git clone https://github.com/liviacnasc/bairrofor_api.git
 cd bairrofor_api
 ```
 
-2. Instalar dependências
+**2. Instalar dependências**
 ```
 npm install
 ```
 
-3. Configurar variáveis de ambiente
+**3. Configurar variáveis de ambiente**
 
 Crie um arquivo .env na raiz do projeto e adicione:
 
@@ -50,13 +50,13 @@ OPENROUTESERVICE_API_KEY=''
 ```
 Altere os valores conforme sua configuração local.
 
-4. Popular banco de dados
+**4. Popular banco de dados**
 
 ```
 npm run db
 ```
 
-5. Rodar o servidor
+**5. Rodar o servidor**
 
 ```
 npm start
@@ -69,7 +69,7 @@ A API estará disponível em:
 http://localhost:8080
 ```
 
-6. Testar a aplicação
+**6. Testar a aplicação**
 
 Para rodar os testes unitários:
 
@@ -77,12 +77,14 @@ Para rodar os testes unitários:
 npm run test
 ```
 
-7. Testar a API utilizando a APi Client Bruno
+**7. Testar a API utilizando a APi Client Bruno**
 
 - Faça o download e a instalação do Bruno no link a seguir: https://www.usebruno.com/downloads
 - Abra o Bruno, clique nos três pontinhos e em "Open Collection".
-![ ](https://)
-- 
+![ Bruno ](https://github.com/liviacnasc/bairrofor_api/blob/main/docs/assets/bruno.png?raw=true)
+- Escolha a pasta `bruno` do repositório.
+![ Bruno ](https://github.com/liviacnasc/bairrofor_api/blob/main/docs/assets/bruno_pasta.png?raw=true)
+- Faça os testes da API conforme desejar.
 
 
 ## Problema abordado e Justificativa
