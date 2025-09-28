@@ -4,6 +4,7 @@ import controller from '../application/controllers/controller.js';
 const router = express.Router();
 const oController = controller();
 
+// RF 02: O sistema deve exibir informações de cada bairro.
 router.get('/bairro/:id', async (req, res) => {
     /* #swagger.description = 'Recebe o id de um bairro e retorna dados básicos'
 
@@ -24,6 +25,7 @@ router.get('/bairro/:id', async (req, res) => {
 	}
 });
 
+// RF 04 - O sistema deve consumir dados de APIs públicas ou datasets estáticos pré-processados.
 router.get('/localizar/numero/:numero/cep/:cep', async (req, res) => {
 	/* #swagger.description = 'Recebe um endereço (número e cep) e retorna coordenadas.'
 
@@ -43,6 +45,7 @@ router.get('/localizar/numero/:numero/cep/:cep', async (req, res) => {
 	}
 });
 
+// RF 02: O sistema deve exibir informações de cada bairro. e RF 03: O sistema deve apresentar indicadores como: território, socioeconômico e população, etc.
 router.get('/pesquisar', async (req, res) => {
     /* #swagger.description = 'Recebe um CEP e retorna dados básicos sobre o bairro em que está localizado.'
 
@@ -62,6 +65,7 @@ router.get('/pesquisar', async (req, res) => {
 	}
 });
 
+//RF 01: Comparar dois bairros
 router.post('/comparar', async (req, res) => {
 	/*  #swagger.requestBody = {
 			required: true,
@@ -85,6 +89,7 @@ router.post('/comparar', async (req, res) => {
 	}
 });
 
+// RF 01: Comparar dois bairros e RF 04 - O sistema deve consumir dados de APIs públicas ou datasets estáticos pré-processados.
 router.post('/calcular-distancia', async (req, res) => {
 	/*  #swagger.requestBody = {
 			required: true,

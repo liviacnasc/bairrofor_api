@@ -1,18 +1,81 @@
-links uteis
-
-https://mapas.fortaleza.ce.gov.br
-https://leafletjs.com
-https://dados.fortaleza.ce.gov.br/
-https://www.gov.br/cnpq/pt-br/assuntos/noticias/destaque-em-cti/inct-do-cnpq-lanca-o-indice-de-bem-estar-urbano-dos-municipios-brasileiros
-https://bairros.fortaleza.ce.gov.br
-
 ## Sumário
-1. Problema abordado e justificativa
-2. Objetivos do sistema
-3. Escopo do projeto
-4. Visão geral da arquitetura
-5. Tecnologias propostas
-6. Integrantes da equipe e seus papéis
+1. Instalação
+2. Problema abordado e justificativa
+3. Objetivos do sistema
+4. Escopo do projeto
+5. Visão geral da arquitetura
+6. Tecnologias propostas
+7. Integrantes da equipe e seus papéis
+
+## Instalação 
+
+### Pré-requisitos
+
+- Node.js (>= v18)
+- npm
+- Banco de dados PostgreSQL
+- Git instalado
+
+### Passo a passo
+
+1. Clonar o repositório
+
+```
+git clone https://github.com/liviacnasc/bairrofor_api.git
+cd bairrofor_api
+```
+
+2. Instalar dependências
+```
+npm install
+```
+
+3. Configurar variáveis de ambiente
+
+Crie um arquivo .env na raiz do projeto e adicione:
+
+```
+# Porta da aplicação
+
+PORT='8080'
+
+# Configuração do banco
+
+DATABASE_URL='postgres://{db_username}:{db_password}@{host}:{port}/{db_name}'
+
+# Crie uma conta em https://openrouteservice.org para criar a chave da api
+
+OPENROUTESERVICE_API_KEY=''
+```
+Altere os valores conforme sua configuração local.
+
+4. Popular banco de dados
+
+```
+npm run db:migrate
+```
+
+5. Rodar o servidor
+
+```
+npm start
+```
+
+
+A API estará disponível em:
+
+```
+http://localhost:8080
+```
+
+6. Testar a aplicação
+
+Para rodar os testes unitários:
+
+```
+npm run test
+```
+
 
 ## Problema abordado e Justificativa
 
@@ -40,37 +103,39 @@ Socioeconômico
 
 População ✅
 
-Habitação
+Habitação (implementação futura)
 - Domicílios
 - Condomínios
 
-Mobilidade
+Mobilidade (implementação futura)
 - Ciclovias
 - Estações Bicicletar
 - Pontos de ônibus
 Equipamentos de saúde
 
-
-### Entregas e resultados
-
-- Site responsivo (mobile e web):
-    - Tela com um mapa, para que usuário possa selecionar dois bairros.
-    - Exibição de dados em tabelas e gráficos.
 ### Fora do Escopo
-
 - Atualização em tempo real de dados externos.
 - Machine learning para sugerir bairro ideal.
 - Ranking completo de todos os bairros.
 ### Restrições do projeto
 
-Pelo curto tempo de execução e pela falta de orçamento, o projeto será exclusivo para a cidade de Fortaleza.
+Projeto será exclusivo para a cidade de Fortaleza.
 ### Visão geral da arquitetura
 
 A arquitetura em camadas será aplicada no projeto, de forma que seja um desenvolvimento rápido, mas que mantenha as responsabilidades dos componentes devidamente separadas.
 ### Tecnologias propostas
 
-- Vite → montar dashboards dinâmicos e comparação lado a lado.
-- Recharts → gráficos comparativos claros.
-- Node.js + Express → simples para criar API REST que serve os dados.
-- PostgreSQL -> banco de dados.
+- Runtime: Node.js
+- Framework: Express
+- Cliente http: Axios
+- Testes: Jest
+- Documentação: Swagger autogen & swagger-ui-express
+- Banco de dados: PostgreSQL
+
 ### Integrante da equipe e seus papéis
+
+Nome                    | Função     |
+------------------------|--------------|
+Ana Lívia  | Desenvolvedora    |
+Fernando Henrique | Documentação |
+Rebeca Samia | Design Web e Mobile |

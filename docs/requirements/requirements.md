@@ -14,7 +14,7 @@ RF 02: O sistema deve exibir informações de cada bairro. (ESSENCIAL)
 
 RF 03: O sistema deve apresentar indicadores como: território, socioeconômico e população, etc. (ESSENCIAL)
 
-RF 04 - O sistema deve consumir dados de APIs públicas ou datasets estáticos pré-processados.
+RF 04 - O sistema deve consumir dados de APIs públicas ou datasets estáticos pré-processados. (IMPORTANTE)
 
 ### Requisitos não funcionais
 
@@ -38,9 +38,15 @@ Estudantes.
 UC 01: Comparar bairros
 	Ator: Usuário de qualquer perfil
 	Fluxo:
-		1. Usuário acessa a página principal.
-		2. Usuário seleciona no mapa os bairros que deseja comparar.
-		3. O sistema busca as informações e indicadores.
-		4. O sistema exibe uma tela de comparação entre os bairros.
-		5. Se houver falta de dados, exibe a mensagem "informação indisponível".
+		1. Usuário envia os endereços dos dois bairros que deseja comparar e um local de interesse.
+		2. O sistema busca as informações e indicadores.
+		3. Se houver falta de dados, exibe a mensagem "informação indisponível".
+		4. Retorna os resultados da comparação, os dados básicos dos bairros e as distâncias entre os endereços.
+UC 02: Distâncias entre endereços
+	Ator: Usuário de qualquer perfil
+	Fluxo:
+		1. Usuário envia os endereços dos dois bairros que deseja comparar.
+		2. O sistema busca as informações e indicadores.
+		3. Se houver falta de dados, exibe a mensagem "informação indisponível".
+		4. Retorna as distâncias entre os endereços.
 
