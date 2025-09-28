@@ -15,17 +15,18 @@ O sistema precisa armazenar informações sobre os bairros de fortaleza, categor
 **BairroIndicador:** armazena os valores brutos e normalizados dos e relaciona-se com as tabelas Bairro e Indicador.
 
 ### Diagrama ER ou similar
-![[Diagramas (2).jpg]]
+
+
+
 ### Dicionário de dados
 
 ###### Tabela: Bairro
 
 | Campo              | Tipo      | Descrição                                                                    |
 | ------------------ | --------- | ---------------------------------------------------------------------------- |
-| id_pmf (PK)        | int       | Identificador do bairro pela PMF.                                            |
-| id_ibge            | int       | Identificador do bairro pelo IBGE.                                           |
+| id_pmf (PK)        | string       | Identificador do bairro pela PMF.                                            |
+| id_ibge            | string       | Identificador do bairro pelo IBGE.                                           |
 | nome               | string    | Nome do bairro.                                                              |
-| regional           | string    | Regional de Fortaleza em que o bairro está localizado.                       |
 | ultima_atualizacao | timestamp | data da última atualização das informações da tabela, de acordo com a fonte. |
 ###### Tabela: Indicador
 
@@ -41,8 +42,7 @@ O sistema precisa armazenar informações sobre os bairros de fortaleza, categor
 | ----------------- | ------ | ------------------------------------------------- |
 | id_bairro (FK)    | string | Identificador do indicador.                       |
 | id_indicador (FK) | string | Nome do indicador (exemplo: idh).                 |
-| valor_bruto       | float  | Valor bruto do indicador.                         |
-| valor_normalizado | float  | Valor do indicador após a normalização dos dados. |
+| valor      | string  | Valor do indicador.                         |
 
 
 

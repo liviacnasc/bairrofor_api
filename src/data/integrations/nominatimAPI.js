@@ -14,8 +14,8 @@ export default function nominatimAPI() {
           success: true,
           statusCode: 200,
           value:{
-          lat: response.data[0].lat,
-          long: response.data[0].lon
+            lat: response.data[0].lat,
+            long: response.data[0].lon
           } 
         }
         } catch (error) {

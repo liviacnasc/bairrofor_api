@@ -10,111 +10,87 @@
 
 A arquitetura em camadas será aplicada no projeto, de forma que seja um desenvolvimento rápido, mas que mantenha as responsabilidades dos componentes devidamente separadas.
 ## Componentes do sistema
-Front End:
+### Front End:
 - Views:
 	- Home
 	- Seleção de bairros
 	- Tela de comparação
 	- Metodologia e Fontes
 - API Services
-	- `bairrosService` 
-		- `listar`, `obterDetalhes`, `comparar`
-	- `indicadoresService` 
-		- `listarIndicadores`
 
-Back End:
-Apresentação
-- Controllers
-	- BairrosController
-Aplicação
-- Services
-	- BairrosService: 
-		- getBairro(bairroId)
-		- getBairroIndicador(bairroId, indicadorId)
-	- IntegracaoService
-		- 
+### Back End:
+#### Aplicação
+- Controlador
+- Serviços:
+	- BairrosService
+		- `getBairroById`
+		- `getBairroByCEP`
+		- `getComparador`
+	- IntegrationService
+		- `getBairroByCEP`
+		- `getlatLongByNumeroECEP`
+		- `getDistancia`
+- UseCases:
+	- `compararBairrosUseCase`
+	- `distanciaEntrePontosUseCase`
+
 Domínio
-- Modelos:
-	- Bairro
-	- Indicador
-
-Persistência
-- IBGERepository
-- PMFRepository
-- BairrosRepository
+- Service:
+	- `indicadorService`
 
 Dados
+- Integrações (APIs Externas):
+	- `fortalezaAPI` (implementação futura)
+	- `nominatimAPI`
+	- `openRouteServiceAPI`
+	- `ViaCepAPI`
+- Repositorios
+	- BairrosRepository
+		- `getAllBairros`
+		- `findBairroByPmfId`
+		- `getBairroByNome`
+	- IndicadorRepository (implementação futura)
+
+Banco de Dados
 - PostgreSQL
-- APIs Externas
+
 ## Padrões arquiteturais utilizados
 - **Layered Architecture (Arquitetura em Camadas)** — separação clara de responsabilidades.
 - **Repository Pattern** — abstrai acesso a dados; facilita testes e troca de DB.
-- **Domain Services + Entities (DDD-lite)** — manter regras de negócio no domínio.
+- **Domain Services** — mantém as regras de negócio no domínio.
 - **API REST** — contrato entre frontend e backend.
 - **Single Responsibility Principle (SRP)** — cada componente/função tem responsabilidade única.
+
 ## Diagrama de Arquitetura
-![[Diagramas.jpg]]
+
+![Diagrama](https://github.com/liviacnasc/bairrofor_api/blob/main/docs/assets/Diagramas%20(3).jpg)
+
+
 ## Decisões técnicas e justificativas
 
-Padrão: **Arquitetura em camadas**
+**1. Arquitetura em camadas**
 
-- **Por que:** clareza didática, simples para provar conceitos de engenharia de software, baixo custo de implementação, ideal para 1 mês.
+É simples para provar conceitos de engenharia de software, baixo custo de implementação e ideal para o curto prazo da atividade final.
 
-Linguagem / Runtime: **Node.js (Express) no backend**
+**2. Node.js e Express**
 
-- **Por que:** rapidez de prototipagem, ampla comunidade, fácil integração com JSON/REST, bom para TDD com Jest.
+Rápida prototipagem, ampla comunidade, fácil integração com JSON/REST, bom para testes com Jest.
 
+**3. PostgreSQL (relacional)**
 
-Frontend: **React + TailwindCSS**
-
-- **Por que:** velocidade de desenvolvimento, componentes reutilizáveis, facilidade para gráficos (Recharts) e PWA se quiser.
+Comparações e agregações são mais naturais em relacional; SQL facilita consultas analíticas.
     
-- **Trade-offs:** curva inicial se time não conhece, mas compensa pela produtividade.
-    
+**4. Repositórios**
 
-Banco: **PostgreSQL (relacional)**
-
-- **Por que:** comparações e agregações multi-tabelas (indicadores por ano/mês) são mais naturais em relacional; SQL facilita consultas analíticas.
-
-DTOs entre Application ↔ Domain
-
-- **Por que:** isola domínio de mudanças externas, facilita testes e normalização, deixa domínio puro.
-    
-- **Trade-offs:** um pouco mais de código (mappers) mas ganho em manutenibilidade.
+Desacopla acesso a dados, facilita mocks nos testes unitários da aplicação/domínio.
     
 
-## 5.6 Repositório Pattern
+**5. Comparação de indicadores no Domain Service**
 
-- **Por que:** desacopla acesso a dados, facilita mocks nos testes unitários da aplicação/domínio.
+Regras de negócio devem ficar no domínio para serem testáveis e independentes.
     
-- **Trade-offs:** boilerplate adicional, porém valioso para qualidade acadêmica.
-    
+**6. Nenhuma integração em tempo real para consumo de dados públicos**
 
-## 5.7 Normalização e cálculo no Domain Service
+Os dados mais completas sobre os bairros são disponibilizados pela Prefeitura de Fortaleza, no entanto, implementar essa funcionalidade seria um pouco complexo, pois a plataforma tem recursos em vários formatos diferentes (csv, pdf, json, xlsx, entre outros).
 
-- **Por que:** regras de negócio (normalização, pesos, agregação) devem ficar no domínio para serem testáveis e independentes da infra.
-    
-- **Trade-offs:** se cálculos precisarem de dados externos complexos, o service de aplicação prepara o DTO (ETL) e passa ao domínio.
-    
-
-## 5.8 ETL/Seed manual no MVP (nenhuma integração em tempo real)
-
-- **Por que:** fontes por bairro costumam ser CSV/PDF; ingestão manual/semiautomática é mais confiável e viável em 1 mês.
-    
-- **Evolução:** automatizar scraping/ETL em fase futura.
-    
-
-## 5.9 Deploy: Vercel (frontend) + Render/Railway (backend) + Managed Postgres
-
-- **Por que:** deploy rápido, grátis/baixo custo para protótipo, fácil CI.
-    
-- **Trade-offs:** limitações de plans gratuitos, mas suficientes para entrega acadêmica.
-    
-
-## 5.10 Testes
-
-- **Dominio:** cobertura alta, unit tests para `ComparadorDeBairros` e `Normalizador`.
-    
-- **Application:** mocks de repositórios, testes de integração leve.
-    
-- **Controllers:** testes de integração com supertest.
+Os dados estáticos em banco de dados são mais fáceis de se trabalhar no protótipo.

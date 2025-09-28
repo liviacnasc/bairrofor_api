@@ -1,48 +1,343 @@
 
-> [!NOTE] Conteúdo
+> **Conteúdo**
 > - Endpoints previstos
 > - Parâmetros de requisição
 > - Formatos de resposta
 > - Autenticação de autorização
 > - Exemplos de chamadas e res
 
-APIs externas: 
-- https://dados.fortaleza.ce.gov.br/api/3
-- https://servicodados.ibge.gov.br/api/docs/agregados?versao=3
-- https://dados.fortaleza.ce.gov.br/api/3/action/package_search?q=condominio
-
 ### Endpoints previstos
 
-##### Bairros
-GET `/bairros`
+### **GET** `/bairros/{id}`
 
-GET `/bairros/{id}`
+#### Descrição: 
 
-parâmetros da requisição
+Recebe o id de um bairro e retorna dados básicos
+
+#### Parâmetros da requisição:
 
 | Parametro | Tipo | Descrição                |
 | --------- | ---- | ------------------------ |
-| `id`      | int  | Identificador do bairro. |
-Resposta
+| `id`      | string  | Identificador do bairro. |
+
+#### Exemplo
+
+##### Requisição
+
+```
+http://localhost:8080/bairro/99
+```
+
+##### Resposta
 ``` json
 [
 	{
-		"id": 101,
-		"nome": "Montese",
-		"populacao_2022": 21794,
-		"area_km2": 1.91,
-		"regional": "Secretaria Executiva Regional 4",
-		"socioeconomico": {
-			"idh": "xx",
-			"idh_renda": "xx",
-			"idh_educacao": "xx",
-			"idh_longevidade": "xx",
-		}
-		...,
-		"ultima_atualizacao": "dd-mm-aaaa"
-		
+		"success": "true",
+		"body": [
+			{
+			"id_pmf": "99",
+			"id_ibge": "2304400100",
+			"nome": "Itaperi",
+			"ultima_atualizacao": "2022-11-13T03:00:00.000Z"
+			}
+		]
 	}
 ]
+```
+
+### **GET** `/localizar/numero/{numero}/cep/{cep}`
+
+#### Descrição:
+
+Recebe um endereço (número e cep) e retorna coordenadas.
+
+#### Parâmetros da requisição:
+
+| Parametro | Tipo | Descrição                |
+| --------- | ---- | ------------------------ |
+| `numero`      | string  | Número da casa/prédio. |
+| `cep`      | string  | CEP da rua. |
+#### Exemplo
+
+##### Requisição
+```
+http://localhost:8080/localizar/numero/71/cep/60421440
+```
+##### Resposta
+
+``` json
+{
+  "success": "true",
+  "body": {
+    "lat": "-3.7735054",
+    "long": "-38.5553965"
+  }
+}
+
+```
+
+### **GET** `/pesquisar`
+
+#### Descrição:
+
+Recebe um CEP e retorna dados básicos sobre o bairro em que está localizado.
+
+#### Parâmetros da requisição:
+
+query
+
+| Parametro | Tipo | Descrição                |
+| --------- | ---- | ------------------------ |
+| `cep`      | string  | CEP da rua. |
+
+#### Exemplo
+
+###### Requisição
+
+```
+http://localhost:8080/localizar/numero/71/cep/60421440
+```
+
+
+###### Resposta
+
+``` json
+{
+  "success": "true",
+  "body": [
+    {
+      "id_pmf": "98",
+      "bairro_nome": "Itaoca",
+      "indicador": {
+        "territorio": {
+          "area": "0.7410",
+          "regional_antiga": "SER IV"
+        },
+        "populacao": {
+          "populacao": "3860"
+        },
+        "socioeconomico": {
+          "idh_renda": "0.1070",
+          "idh": "0.3730",
+          "idh_educacao": "0.9590"
+        }
+      }
+    }
+  ]
+}
+
+```
+
+
+### **POST** `/comparar`
+
+#### Descrição:
+
+Recebe três endereços (número e CEP) e retorna dados básicos, resultados das comparações entre os indicadores e as distâncias entre as localidades.
+
+#### Parâmetros da requisição:
+
+Sem parâmetros
+
+#### Schema do body da requisição:
+``` json
+{
+  "origem": {
+    "numero": "1321",
+    "cep": "60811-905"
+  },
+  "destino": {
+    "numero": "71",
+    "cep": "60421440"
+  },
+  "localDeInteresse": {
+    "numero": "282",
+    "cep": "60055402"
+  }
+}
+
+```
+
+#### Exemplo
+
+##### Requisição
+
+```json
+{
+  "origem": {
+    "numero": "1321",
+    "cep": "60811-905"
+  },
+  "destino": {
+    "numero": "71",
+    "cep": "60421440"
+  },
+  "localDeInteresse": {
+    "numero": "282",
+    "cep": "60055402"
+  }
+}
+```
+
+##### Resposta
+
+``` json
+{
+  "success": "true",
+  "body": {
+    "resultadosComparacao": {
+      "populacao": "Edson Queiroz",
+      "area": "Edson Queiroz",
+      "idh": "Itaoca",
+      "idhRenda": "Edson Queiroz",
+      "idhEducacao": "Edson Queiroz"
+    },
+    "dadosBairros": [
+      {
+        "dadosBairro": {
+          "id_pmf": "57",
+          "bairro_nome": "Edson Queiroz",
+          "indicador": {
+			...
+          }
+        },
+        "coordenadas": {
+          "lat": "-3.7687254",
+          "long": "-38.4776938"
+        }
+      },
+      {
+        "dadosBairro": {
+          "id_pmf": "98",
+          "bairro_nome": "Itaoca",
+          "indicador": {
+			...
+          }
+        },
+        "coordenadas": {
+          "lat": "-3.7735054",
+          "long": "-38.5553965"
+        }
+      },
+      {
+        "dadosBairro": {
+          "id_pmf": "23",
+          "bairro_nome": "José Bonifácio",
+          "indicador": {
+			...
+          }
+        },
+        "coordenadas": {
+          "lat": "-3.7394095",
+          "long": "-38.5252641"
+        }
+      }
+    ],
+    "distanciasERotas": [
+      {
+        "origem": "Edson Queiroz",
+        "destino": "Itaoca",
+        "distancia": {
+          "carro": {
+            "distance": 11789.3,
+            "duration": 1290.6
+          },
+          "pe": {
+            "distance": 11309.1,
+            "duration": 8142.5
+          }
+        }
+      },
+      {
+        "origem": "Edson Queiroz",
+        "destino": "José Bonifácio",
+        "distancia": {
+          "carro": {
+            "distance": 7884.9,
+            "duration": 807.6
+          },
+          "pe": {
+            "distance": 8367.1,
+            "duration": 6024.2
+          }
+        }
+      },
+      {
+        "origem": "Itaoca",
+        "destino": "José Bonifácio",
+        "distancia": {
+          "carro": {
+            "distance": 6520.8,
+            "duration": 648.9
+          },
+          "pe": {
+            "distance": 6395.8,
+            "duration": 4604.9
+          }
+        }
+      }
+    ]
+  }
+}
+
+```
+
+
+### **POST** `/calcular-distancia` 
+
+#### Descrição:
+
+Recebe dois endereços (número e CEP) e retorna as distâncias entre as localidades.
+
+#### Schema do body da requisição:
+
+``` json
+{
+  "origem": {
+    "numero": "1321",
+    "cep": "60811-905"
+  },
+  "destino": {
+    "numero": "71",
+    "cep": "60421440"
+  }
+}
+``` 
+
+#### Exemplo
+
+##### Requisição
+
+``` json
+{
+  "origem": {
+    "numero": "1321",
+    "cep": "60811-905"
+  },
+  "destino": {
+    "numero": "71",
+    "cep": "60421440"
+  }
+}
+``` 
+
+##### Resposta
+
+``` json
+{
+  "success": "true",
+  "body": {
+    "carro": {
+      "distance": 11789.3,
+      "duration": 1290.6
+    },
+    "pe": {
+      "distance": 11309.1,
+      "duration": 8142.5
+    }
+  }
+}
+
 ```
 
 
@@ -134,20 +429,23 @@ Resposta
 
 ##### Indicadores
 
-| Id  | Nome                     |
-| --- | ------------------------ |
-| T1  | Cobertura vegetal urbana |
-| T2  | Área em km2              |
-| S1  | IDH                      |
-| S2  | IDH Renda                |
-| S3  | IDH Longevidade          |
-| S4  | População Censo 2022     |
-| H1  | Domicílios               |
-| H2  | Condomínios              |
-| M1  | Ciclovias                |
-| M2  | Estações Bicicletar      |
-| M3  | Pontos de Onibus         |
-| M4  | Equipamentos de Saúde    |
+|id |nome                    |categoria     |descricao                                                                                    |
+|---|------------------------|--------------|---------------------------------------------------------------------------------------------|
+|1  |area                    |territorio    |Extensão territorial total do bairro em quilômetros quadrados.                               |
+|2  |cobertura_vegetal_urbana|territorio    |Percentual da área ocupada por vegetação em espaços públicos e privados.                     |
+|4  |idh                     |socioeconomico|Índice de Desenvolvimento Humano geral do bairro, considerando renda, educação e longevidade.|
+|5  |idh_renda               |socioeconomico|Subíndice do IDH que mede a qualidade de vida a partir da renda dos moradores.               |
+|6  |idh_educacao            |socioeconomico|Subíndice do IDH que mede o acesso e a escolaridade da população do bairro.                  |
+|7  |renda_media_mensal      |socioeconomico|Valor médio mensal recebido pelos domicílios do bairro.                                      |
+|8  |domicilios              |habitacao     |Número total de residências cadastradas no bairro.                                           |
+|9  |condominios             |habitacao     |Quantidade de condomínios residenciais e comerciais presentes no bairro.                     |
+|10 |ciclovias               |mobilidade    |Extensão total de ciclovias e ciclofaixas disponíveis no bairro, em quilômetros.             |
+|11 |estacoes_bicicletar     |mobilidade    |Número de estações do sistema público de bicicletas disponíveis no bairro.                   |
+|12 |ponto_onibus            |mobilidade    |Quantidade de paradas oficiais de transporte coletivo localizadas no bairro.                 |
+|3  |regional_antiga         |territorio    |Região administrativa à qual o bairro pertencia na antiga divisão da cidade.                 |
+|13 |regional_atual          |territorio    |Região administrativa à qual o bairro pertence na divisão da cidade atualmente.              |
+|14 |populacao               |populacao     |População total do bairro, segundo o Censo Demográfico 2022 do IBGE.                         |
+
 
 ##### Bairros
 
@@ -274,3 +572,12 @@ Resposta
 | 119 | 2304400123 | Parque Santa Maria            |
 | 120 | 2304400124 | Aracapé                       |
 | 121 | 2304400125 | Boa Vista / Castelão          |
+
+### APIs externas: 
+- https://viacep.com.br
+- https://openrouteservice.org
+- https://nominatim.org
+
+### Fonte de dados: 
+- https://dados.fortaleza.ce.gov.br
+- https://servicodados.ibge.gov.br/api/docs

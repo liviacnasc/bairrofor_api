@@ -91,7 +91,9 @@ export const distanciaEntrePontosUseCase = async (origem, destino) => {
         if(!destinoResult.success){
             return respostaErroPadrao(destinoResult.statusCode, origemResult.message);
         }
-        const response = await integrationServ.getDistancia([origemResult.value.coordenadas.long, origemResult.value.coordenadas.lat], [destinoResult.value.coordenadas.long, destinoResult.value.coordenadas.lat])
+        const response = await integrationServ.getDistancia(
+            [origemResult.value.long, origemResult.value.lat],
+            [destinoResult.value.long, destinoResult.value.lat])
         
         if(!response.success){
             respostaErroPadrao(response.statusCode, response.message)
