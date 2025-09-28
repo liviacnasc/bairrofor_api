@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "npm run swagger && nodemon server",
+    "db": "node src/database/migration.js && node src/database/seed.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "swagger": "node swagger.js"
   },

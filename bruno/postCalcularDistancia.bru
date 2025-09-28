@@ -1,0 +1,24 @@
+meta {
+  name: postCalcularDistancia
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8080/calcular-distancia
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "origem": {
+      "numero": "1321",
+      "cep": "60811-905"
+    },
+    "destino": {
+      "numero": "71",
+      "cep": "60421440"
+    }
+  }
+}

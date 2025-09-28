@@ -15,6 +15,7 @@
 - npm
 - Banco de dados PostgreSQL
 - Git instalado
+- Bruno https://www.usebruno.com
 
 ### Passo a passo
 
@@ -52,7 +53,7 @@ Altere os valores conforme sua configuração local.
 4. Popular banco de dados
 
 ```
-npm run db:migrate
+npm run db
 ```
 
 5. Rodar o servidor
@@ -75,6 +76,13 @@ Para rodar os testes unitários:
 ```
 npm run test
 ```
+
+7. Testar a API utilizando a APi Client Bruno
+
+- Faça o download e a instalação do Bruno no link a seguir: https://www.usebruno.com/downloads
+- Abra o Bruno, clique nos três pontinhos e em "Open Collection".
+![ ](https://)
+- 
 
 
 ## Problema abordado e Justificativa
