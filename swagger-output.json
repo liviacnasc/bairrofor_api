@@ -33,7 +33,7 @@
     },
     "/localizar/numero/{numero}/cep/{cep}": {
       "get": {
-        "description": "",
+        "description": "Recebe um endereço (número e cep) e retorna coordenadas.",
         "parameters": [
           {
             "name": "numero",
@@ -61,7 +61,7 @@
     },
     "/pesquisar": {
       "get": {
-        "description": "",
+        "description": "Recebe um CEP e retorna dados básicos sobre o bairro em que está localizado.",
         "parameters": [
           {
             "name": "cep",
@@ -80,25 +80,23 @@
     },
     "/comparar": {
       "post": {
-        "description": "",
+        "description": "Recebe três endereços (número e CEP) e retorna dados básicos, \r \t\tresultados das comparações entre os indicadores e as distâncias entre as localidades.",
         "responses": {
           "200": {
             "description": "OK"
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "origem": {
-                    "example": "any"
-                  },
-                  "destino": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/comparadorSchema2"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/comparadorSchema2"
               }
             }
           }
@@ -107,7 +105,7 @@
     },
     "/calcular-distancia": {
       "post": {
-        "description": "",
+        "description": "Recebe dois endereços (número e CEP) e retorna as distâncias entre as localidades.",
         "responses": {
           "200": {
             "description": "OK"
@@ -177,6 +175,70 @@
         ],
         "xml": {
           "name": "comparadorSchema"
+        }
+      },
+      "comparadorSchema2": {
+        "type": "object",
+        "properties": {
+          "origem": {
+            "type": "object",
+            "properties": {
+              "numero": {
+                "type": "string",
+                "example": "1321"
+              },
+              "cep": {
+                "type": "string",
+                "example": "60811-905"
+              }
+            },
+            "required": [
+              "numero",
+              "cep"
+            ]
+          },
+          "destino": {
+            "type": "object",
+            "properties": {
+              "numero": {
+                "type": "string",
+                "example": "71"
+              },
+              "cep": {
+                "type": "string",
+                "example": "60421440"
+              }
+            },
+            "required": [
+              "numero",
+              "cep"
+            ]
+          },
+          "localDeInteresse": {
+            "type": "object",
+            "properties": {
+              "numero": {
+                "type": "string",
+                "example": "282"
+              },
+              "cep": {
+                "type": "string",
+                "example": "60055402"
+              }
+            },
+            "required": [
+              "numero",
+              "cep"
+            ]
+          }
+        },
+        "required": [
+          "origem",
+          "destino",
+          "localDeInteresse"
+        ],
+        "xml": {
+          "name": "comparadorSchema2"
         }
       },
       "bairroId": {

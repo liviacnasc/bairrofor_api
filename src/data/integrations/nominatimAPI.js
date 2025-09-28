@@ -1,21 +1,30 @@
 import axios from "axios";
 
-export class NominatimAPI {
-  constructor() {
-    this.baseURL = "https://nominatim.openstreetmap.org/";
-  }
+//closure
+export default function nominatimAPI() {
+  
+  const baseURL = "https://nominatim.openstreetmap.org/";
+  
+  return {
+    async getLocalizacao(numero, nomeRua) {
+      try {
+        const response = await axios.get(`${baseURL}/search?q=${encodeURI(numero + " " + nomeRua)}&format=json`);
 
-  async getLocalizacao(numero, nomeRua) {
-    try {
-      const response = await axios.get(`${this.baseURL}/search?q=${encodeURI(numero + " " + nomeRua)}&format=json`);
-
-      return {
-        lat: response.data[0].lat,
-        long: response.data[0].lon
+        return {
+          success: true,
+          statusCode: 200,
+          value:{
+          lat: response.data[0].lat,
+          long: response.data[0].lon
+          } 
+        }
+        } catch (error) {
+            return {
+              success: false,
+              statusCode: error.response.status,
+              message: error.message
+        }
       }
-    } catch (error) {
-      throw new ExternalAPIError(error.message, error.response.status)
     }
   }
-
 }

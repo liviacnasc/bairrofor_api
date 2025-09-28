@@ -1,30 +1,46 @@
 import axios from "axios";
 
-export class FortalezaAPI {
-  constructor() {
-    this.baseURL = "https://dados.fortaleza.ce.gov.br/api/3/action";
-  }
+export default async function fortalezaAPI() {
 
-  async getDataset(datasetId) {
-    try {
-      const response = await axios.get(`${this.baseURL}/package_show?id=${datasetId}`);
-      return response.data.result;
-    } catch (error) {
-      console.error("Erro ao consultar Dados Fortaleza:", error.message);
-      throw new Error("Falha na integração com API externa");
-    }
-  }
+  const baseURL = "https://dados.fortaleza.ce.gov.br/api/3/action";
+  
+  return {
+      async getDataset(datasetId) {
+        try {
+        const response = await axios.get(`${baseURL}/package_show?id=${datasetId}`);
 
-  async getResource(resourceId) {
-    try {
-      const response = await axios.get(`${this.baseURL}/resource_show?id=${resourceId}`);
+        return {
+          success: true,
+          statusCode: 200,
+          value: response.data.result 
+        } 
 
-      console.log(response.data.result)
+      } catch (error) {
+        return {
+          success: false,
+          statusCode: 404,
+          message: `Não há registros: ${error}` 
+        } 
+      }
+    },
+    
+    async getResource(resourceId) {
+      try {
+        const response = await axios.get(`${baseURL}/resource_show?id=${resourceId}`);
+        
+        return {
+          success: true,
+          statusCode: 200,
+          value: response.data.result 
+        } 
 
-      return response.data.result;
-    } catch (error) {
-      console.error("Erro ao consultar Dados Fortaleza:", error.message);
-      throw new Error("Falha na integração com API externa");
+      } catch (error) {
+        return {
+          success: false,
+          statusCode: 404,
+          message: `Não há registros: ${error}` 
+        } 
+      }
     }
   }
 }

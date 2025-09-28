@@ -1,66 +1,62 @@
-import { FortalezaAPI } from "../../data/integrations/FortalezaAPI.js";
-import { ViaCepAPI } from "../../data/integrations/viaCepAPI.js";
-import { NominatimAPI } from "../../data/integrations/nominatimAPI.js";
-import { ExternalAPIError, NotFoundError } from "../../helpers/errors.js";
-import { OrsAPI } from "../../data/integrations/openRouteServiceAPI.js";
+import viaCepAPI from '../../data/integrations/viaCepAPI.js';
+import orsAPI from '../../data/integrations/openRouteServiceAPI.js';
+import nominatimAPI from '../../data/integrations/nominatimAPI.js';
+import { respostaErroPadrao, respostaSucesso } from '../../helpers/responses.js';
 
-const viaCEP = new ViaCepAPI();
-const nominatim = new NominatimAPI();
-const orsAPI = new OrsAPI();
+//closure
 
-export default class IntegrationService {
+export default function integrationService() {
+    const viaCep = viaCepAPI();
+    const ors = orsAPI();
+    const nominatim = nominatimAPI();
 
-    sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    async getBairroByCEP(cep) {
-
-        try {
-            const result = await viaCEP.getBairroByCep(cep);
+    return {
+        
+        async getBairroByCEP(cep) {
+            const response = await viaCep.getBairroByCep(cep);
             
-            return result;
-        } catch (error) {
-            throw new ExternalAPIError(error.message, error.statusCode)
-        }
-    }
+            return response;
+        },
 
-    async getNomeRuaByCEP(cep) {
-        try {
-            const result = await viaCEP.getNomeRuaByCep(cep);
-    
-            return result;
-        } catch (error) {
-            throw new ExternalAPIError(error.message, error.statusCode);
-        }
-    }
+        async getlatLongByNumeroECEP(numero, cep) {
+            const result = await viaCep.getNomeRuaByCep(cep);
 
-    async getlatLongByNumeroECEP(numero, cep) {
-        try {
-            const nomeRua = await viaCEP.getNomeRuaByCep(cep);
+            if(!result.success) {
+                return respostaErroPadrao(result.statusCode, result.message)
+            }
             
             // a API Nominatim tem uma limitação de 1 requisição por segundo
-            await this.sleep(1000)
-
-            const result = await nominatim.getLocalizacao(numero, nomeRua);
-    
-            return result;
-        } catch (error) {
-            throw new ExternalAPIError(error.message, error.statusCode);
-        }
-    }
-
-    async getDistancia(origem, destino) {
-        try {
-            const response = {
-                carro: await orsAPI.getDistanciaPorCarro(origem, destino),
-                pe: await orsAPI.getDistanciaAPe(origem, destino)
+            await sleep(1000);
+            
+            const response = await nominatim.getLocalizacao(numero, result.value.rua);
+            
+            if(!response.success) {
+                return respostaErroPadrao(response.statusCode, response.message)
             }
 
-            return response;
-        } catch (error) {
-            throw new ExternalAPIError(error.message, error.statusCode);
+            return respostaSucesso(response.statusCode,response.value);
+        },
+        
+        async getDistancia(origem, destino) {
+            const carro = await ors.getDistanciaPorCarro(origem, destino)
+
+            if(!carro.success){
+                return respostaErroPadrao(carro.statusCode, carro.message)
+            }
+            const pe = await ors.getDistanciaAPe(origem, destino)
+
+            if(!pe.success){
+                return respostaErroPadrao(pe.statusCode, pe.message)
+            }
+
+            return respostaSucesso(200, {
+                    carro: carro.value,
+                    pe: pe.value
+                }
+            )
         }
     }
-
 }
+    

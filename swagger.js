@@ -26,6 +26,20 @@ const doc = {
                     $cep: "60421440"
                 }
             },
+            comparadorSchema2: {
+                $origem: {
+                    $numero: "1321",
+                    $cep: "60811-905"
+                },
+                $destino: {
+                    $numero: "71",
+                    $cep: "60421440"
+                },
+                $localDeInteresse: {
+                    $numero: "282",
+                    $cep: "60055402"
+                }
+            },
             bairroId: {
                 id_pmf: "77",
                 bairro_nome: "Rachel de Queiroz",

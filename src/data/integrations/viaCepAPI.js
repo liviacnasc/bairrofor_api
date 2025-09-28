@@ -1,39 +1,48 @@
 import axios from "axios";
-import { ExternalAPIError } from "../../helpers/errors.js";
+import { respostaErroPadrao, respostaSucesso } from "../../helpers/responses.js";
 
-export class ViaCepAPI {
-	constructor() {
-		this.baseURL = "https://viacep.com.br/ws/";
-	}
+export default function viaCepAPI() {
 
-	async getNomeRuaByCep(cep) {
-		try {
-			const response = await axios.get(`${this.baseURL}/${cep}/json`);
-			return response.data.logradouro;
+	const baseURL = "https://viacep.com.br/ws/";
 
-		} catch (error) {
-			throw new ExternalAPIError(error.message, error.response.status)
+	return {
+
+		async getNomeRuaByCep(cep) {
+			try {
+				const response = await axios.get(`${baseURL}/${cep}/json`);
+					
+				return respostaSucesso(response.status, {
+					bairro: response.data.bairro, 
+					rua: response.data.logradouro
+				})
+				
+			} catch (error) {
+				return respostaErroPadrao(error.response.status, error.message)
+			}
+		},
+
+		async getBairroByCep(cep) {
+			try {
+				const response = await axios.get(`${baseURL}/${cep}/json`);
+				
+				return respostaSucesso(response.status, response.data.bairro)
+			} catch (error) {
+                return respostaErroPadrao(error.response.status, error.message)
+			}
+		},
+
+		async getBairroByNomeRua(rua) {
+			try {
+				const response = await axios.get(`${baseURL}CE/Fortaleza/${encodeURIComponent(rua)}/json`);
+			
+				return respostaSucesso(response.status, response.body[0].bairro)
+			} catch (error) {
+				return {
+					success: false,
+					statusCode: error.response.status,
+					message: error.message
+				};
+			}
 		}
 	}
-
-	async getBairroByCep(cep) {
-		try {
-			const response = await axios.get(`${this.baseURL}/${cep}/json`);
-
-			return response.data.bairro;
-		} catch (error) {
-			throw new ExternalAPIError(error.message, error.response.status)
-		}
-	}
-
-	async getBairroByNomeRua(rua) {
-		try {
-			const response = await axios.get(`${this.baseURL}CE/Fortaleza/${encodeURIComponent(rua)}/json`);
-
-			return response.body[0].bairro;
-		} catch (error) {
-			throw new ExternalAPIError(error.message, error.response.status);
-		}
-	}
-
 }

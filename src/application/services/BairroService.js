@@ -1,45 +1,50 @@
-import BairroRepository from "../../data/repositories/bairro.js";
-import { ExternalAPIError, NotFoundError } from "../../helpers/errors.js";
-import IntegrationService from "./IntegrationService.js";
+import bairroRepository from "../../data/repositories/bairro.js";
+import { respostaErroPadrao, respostaSucesso } from "../../helpers/responses.js";
+import integrationService from "./IntegrationService.js";
 
 
-const integrationService = new IntegrationService();
-const bairroRepository = new BairroRepository();
 
-export default class BairroService {
+export default function bairroService() {
+    const integrationServ = integrationService();
+    const bairroRepo = bairroRepository();
     
-    async getBairroById(id) {
-        try {
-            const response = await bairroRepository.findBairroByPmfId(id);
+    return {
 
+        async getBairroById(id) {
+
+            const response = await bairroRepo.findBairroByPmfId(id);
+            
             return response;
 
-        } catch (error) {
-            throw new NotFoundError(error.message)
-        }
-    }
+        },
+                
+        async getBairroByCEP(cep) {
+            const result = await integrationServ.getBairroByCEP(cep);
 
-    async getBairroByCEP(cep) {
-        try {
-            const nome = await integrationService.getBairroByCEP(cep);
+            if(!result.success) {
+                return respostaErroPadrao(result.statusCode, `ViaCEP: ${result.message}`)
+            }
             
-            return await bairroRepository.getBairroByNome(nome);
+            const response = await bairroRepo.getBairroByNome(result.value);
 
-        } catch (error) {
-            throw new ExternalAPIError(error.message, error.statusCode)
+            if(!response.success) {
+                return respostaErroPadrao(response.statusCode, response.message)
+            }
+
+            return respostaSucesso(response.statusCode, response.value);
+        },
+        
+        async getComparador(origem, destino, localInteresse) {
+            try {
+                const nome = await integrationServ.getBairroByCEP(cep);
+                
+                return await bairroRepo.getBairroByNome(nome);
+                
+            } catch (error) {
+
+            }
         }
-    }
-
-    async getComparador(origem, destino, localInteresse) {
-        try {
-            const nome = await integrationService.getBairroByCEP(cep);
-            
-            return await bairroRepository.getBairroByNome(nome);
-
-        } catch (error) {
-            throw new ExternalAPIError(error.message, error.statusCode)
-        }
-    }
-
-
+}
+    
+    
 }
