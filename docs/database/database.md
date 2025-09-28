@@ -6,17 +6,17 @@
 > - Dicionário de dados
 
 ### Modelo de dados
-O sistema precisa armazenar informações sobre os bairros de fortaleza, categorizá-los de acordo com os indicadores estabelecidos (socioeconômico, habitação, mobilidade e saúde) e armazenar os escores calculados. 
+O sistema precisa armazenar informações sobre os bairros de fortaleza, categorizá-los de acordo com os indicadores estabelecidos. 
 
 ### Descrição das entidades e relacionamentos
 
 **Bairro:** representa um bairro de Fortaleza e relaciona-se com valores de indicadores.
 **Indicador:** representa o indicador e os classifica por categoria.
-**BairroIndicador:** armazena os valores brutos e normalizados dos e relaciona-se com as tabelas Bairro e Indicador.
+**BairroIndicador:** armazena os valores dos e relaciona-se com as tabelas Bairro e Indicador.
 
 ### Diagrama ER ou similar
 
-
+![Diagrama Banco](https://github.com/liviacnasc/bairrofor_api/blob/main/docs/assets/banco.jpg?raw=true)
 
 ### Dicionário de dados
 
