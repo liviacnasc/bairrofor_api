@@ -82,14 +82,13 @@ npm run test
 Muitas pessoas que desejam mudar de bairro em Fortaleza não têm informações centralizadas sobre qualidade de vida, infraestrutura, custo de moradia e sustentabilidade, pois esses dados estão espalhados (portais da prefeitura, IBGE, SSP-CE etc.) ou são de difícil interpretação. Com base nisso, decidimos criar um sistema que ajudaria a consolidar e comparar bairros da cidade, tornando a escolha mais consciente e sustentável, proporcionando uma melhor experiência aos moradores.
 ## Objetivos do sistema
 
-Ajudar usuários na escolha de um bairro para morar, levando em consideração a infraestrutura, mobilidade, custo de vida e indicadores ambientais.
+Ajudar usuários na escolha de um bairro para morar, levando em consideração indicadores populacionais, socioeconômicos, territoriais e outros.
 ## Escopo do projeto
 ### Descrição
 
-O projeto reúne dados públicos e fornece uma representação visual com tabelas e gráficos, a fim de facilitar a interpretação, comparando dois bairros da cidade de Fortaleza de escolha do usuário.
+O projeto reúne dados públicos a fim de facilitar a interpretação, comparando dois bairros da cidade de Fortaleza de escolha do usuário.
 
 #### Categorias e Indicadores
-Para o cálculo dos indicadores serão levadas em consideração aspectos quantitativos e qualitativos
 
 Território
 - Área ✅
