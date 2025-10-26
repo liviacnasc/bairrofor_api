@@ -35,16 +35,16 @@ Estudantes.
 
 ### Casos de Uso
 
-UC 01: Comparar bairros
-	Ator: Usuário de qualquer perfil
-	Fluxo:
+- UC 01: Comparar bairros
+	- Ator: Usuário de qualquer perfil
+	- Fluxo:
 		1. Usuário envia os endereços dos dois bairros que deseja comparar e um local de interesse.
 		2. O sistema busca as informações e indicadores.
 		3. Se houver falta de dados, exibe a mensagem "informação indisponível".
 		4. Retorna os resultados da comparação, os dados básicos dos bairros e as distâncias entre os endereços.
-UC 02: Distâncias entre endereços
-	Ator: Usuário de qualquer perfil
-	Fluxo:
+- UC 02: Distâncias entre endereços
+	- Ator: Usuário de qualquer perfil
+	- Fluxo:
 		1. Usuário envia os endereços dos dois bairros que deseja comparar.
 		2. O sistema busca as informações e indicadores.
 		3. Se houver falta de dados, exibe a mensagem "informação indisponível".
