@@ -25,8 +25,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -53,8 +53,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -72,8 +72,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -82,8 +82,8 @@
       "post": {
         "description": "Recebe três endereços (número e CEP) e retorna dados básicos, \r \t\tresultados das comparações entre os indicadores e as distâncias entre as localidades.",
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         },
         "requestBody": {
@@ -107,8 +107,8 @@
       "post": {
         "description": "Recebe dois endereços (número e CEP) e retorna as distâncias entre as localidades.",
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         },
         "requestBody": {
