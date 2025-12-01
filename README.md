@@ -7,6 +7,7 @@
 6. Tecnologias propostas
 7. Integrantes da equipe e seus papéis
 
+
 ## Instalação 
 
 ### Pré-requisitos
@@ -162,3 +163,6 @@ Nome                    | Função     |
 Ana Lívia  | Desenvolvedora    |
 Fernando Henrique | Documentação |
 Rebeca Samia | Design Web e Mobile |
+
+
+https://youtu.be/G4QCooI-i1c
