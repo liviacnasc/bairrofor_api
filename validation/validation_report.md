@@ -1,22 +1,38 @@
-# ✔️ Relatório de Validação com o Público-Alvo
+# Relatório de Validação do Projeto
 
 ## 1. Apresentação do Projeto ao Público-Alvo
-Descreva como aconteceu o contato.
 
-- **Forma de apresentação:** Vídeo demonstrativo e ccoleta de feedback no Google Forms
-- **Link do formulário (Google Forms):** https://forms.gle/Gtx4KENvd27cs1918
+A validação foi realizada com 13 participantes, todos moradores de Fortaleza, utilizando:
+- Um vídeo demonstrativo explicando o funcionamento do sistema.
+- Um formulário Google Forms com perguntas objetivas e espaço para feedback.
 
-### Resumo da Apresentação
+O objetivo foi avaliar:
+- Clareza da interface
+- Funcionalidade do comparador
+- Utilidade dos indicadores exibidos
+- Facilidade de uso
 
-Durante o vídeo demonstrativo, mostramos a principal funcionalidade do sistema, que é o comparador, e como as informações são mostradas. Também explicamos brevemente as tecnologias propostas.
+## 3. Resultados Obtidos
 
-## 2. Feedback Recebido
+### Total de participantes
+13 participantes, sendo 11 moradores de Fortaleza
 
-### Principais pontos recebidos:
+### Feedback geral sobre o projeto
+Com base nas respostas coletadas:
 
+- A maioria dos participantes avaliou positivamente a proposta.
+- O objetivo do projeto foi considerado claro e útil.
+- Os participantes entenderam a funcionalidade do comparador.
+- O vídeo demonstrativo foi suficiente para apresentar a ferramenta.
 
-### Melhorias sugeridas:
+### Autorizações de uso
+Alguns participantes permitiram o uso de suas respostas e nomes; outros optaram pelo anonimato. As autorizações individuais se encontram no formulário.
 
 ## 4. Conclusão
 
-A validação mostrou que o sistema atende às necessidades do público-alvo, especialmente em relação ao auxílio na busca de um novo bairro para morar.
+A validação confirmou que o sistema atende ao público-alvo proposto, demonstrando:
+- Funcionalidade compreensível
+- Interface clara
+- Relevância no cotidiano dos moradores
+
+Os feedbacks coletados reforçam que o projeto está adequado e cumpre sua proposta de comparar bairros de Fortaleza por indicadores essenciais.

@@ -174,13 +174,22 @@ Pessoas que estão em busca de um novo local para morar, especificamente na cida
 ### Processo de Validação
 
 - Método: Vídeo demonstrativo + formulário Google Forms  
-- Total de respostas: **X**
+- Total de respostas: 13
 
 ### Principais Feedbacks
-- 🟢 Pontos positivos:  
-  -  
-- 🔧 Melhorias sugeridas:  
-  -  
+Os participantes destacaram principalmente:
+
+- Interface simples e fácil de usar, com fluxo intuitivo.
+- Mapa claro e informativo, ajudando na visualização dos resultados.
+- Ideia útil para comparar bairros, especialmente para quem está escolhendo locais na cidade.
+- Ferramenta rápida e objetiva, sem informações excessivas, indo direto ao que importa.
+
+Entre as sugestões mais mencionadas:
+
+- Aprimorar a exibição dos resultados, organizando melhor os indicadores.
+- Permitir comparação mais visual entre os bairros (gráficos, cores, ou destaques).
+- Deixar uma quantidade personalizável de bairros para comparação
+- Dar uma opção de colocar o bairro dentre os escolhidos com o maior número de pontos positivos 
 
 Toda a documentação está disponível na pasta [`validation/`](validation/).
 
