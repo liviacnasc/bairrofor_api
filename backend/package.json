@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npm run swagger && nodemon server",
+    "start": "node server.js",
     "db": "node src/database/migration.js && node src/database/seed.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll --detectOpenHandles",
     "swagger": "node swagger.js"

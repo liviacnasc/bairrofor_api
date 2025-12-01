@@ -35,7 +35,7 @@ const doc = {
                     $numero: "71",
                     $cep: "60421440"
                 },
-                $localDeInteresse: {
+                $localInteresse: {
                     $numero: "282",
                     $cep: "60055402"
                 }

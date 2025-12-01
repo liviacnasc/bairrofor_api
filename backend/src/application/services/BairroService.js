@@ -1,5 +1,5 @@
 import bairroRepository from "../../data/repositories/bairro.js";
-import { respostaErroPadrao, respostaSucesso } from "../../helpers/responses.js";
+import { AppError, respostaErroPadrao, respostaSucesso } from "../../helpers/responses.js";
 import integrationService from "./IntegrationService.js";
 
 
@@ -9,6 +9,14 @@ export default function bairroService() {
     const bairroRepo = bairroRepository();
     
     return {
+
+        async getBairros() {
+
+            const response = await bairroRepo.getAllBairros();
+            
+            return response;
+
+        },
 
         async getBairroById(id) {
 
@@ -22,28 +30,18 @@ export default function bairroService() {
             const result = await integrationServ.getBairroByCEP(cep);
 
             if(!result.success) {
-                return respostaErroPadrao(result.statusCode, `ViaCEP: ${result.message}`)
+               throw new AppError(`ViaCEP: ${result.message}`, result.statusCode)
             }
             
             const response = await bairroRepo.getBairroByNome(result.value);
 
             if(!response.success) {
-                return respostaErroPadrao(response.statusCode, response.message)
+               throw new AppError(response.message, response.statusCode)
             }
 
             return respostaSucesso(response.statusCode, response.value);
         },
-        
-        async getComparador(origem, destino, localInteresse) {
-            try {
-                const nome = await integrationServ.getBairroByCEP(cep);
-                
-                return await bairroRepo.getBairroByNome(nome);
-                
-            } catch (error) {
-
-            }
-        }
+    
 }
     
     

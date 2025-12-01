@@ -4,9 +4,27 @@ import controller from '../application/controllers/controller.js';
 const router = express.Router();
 const oController = controller();
 
+
 // RF 02: O sistema deve exibir informações de cada bairro.
-router.get('/bairro/:id', async (req, res) => {
-    /* #swagger.description = 'Recebe o id de um bairro e retorna dados básicos'
+router.get('/bairros', async (req, res, next) => {
+	/* #swagger.description = 'Retorna dados básicos de todos bairros'
+
+	*/
+	try {
+		const result = await oController.getBairros();
+
+		res.status(result.statusCode).send({
+			success: result.success,
+			body: result.value
+		});
+
+	} catch (error) {
+		next(error)
+	}
+});
+
+router.get('/bairro/:id', async (req, res, next) => {
+	/* #swagger.description = 'Recebe o id de um bairro e retorna dados básicos'
 
 	*/
 	try {
@@ -18,55 +36,46 @@ router.get('/bairro/:id', async (req, res) => {
 		});
 
 	} catch (error) {
-		res.status(error.statusCode).send({
-			success: false,
-			message: error.message
-		})
+		next(error)
 	}
 });
 
 // RF 04 - O sistema deve consumir dados de APIs públicas ou datasets estáticos pré-processados.
-router.get('/localizar/numero/:numero/cep/:cep', async (req, res) => {
+router.get('/localizar/numero/:numero/cep/:cep', async (req, res, next) => {
 	/* #swagger.description = 'Recebe um endereço (número e cep) e retorna coordenadas.'
 
 	*/
 	try {
 		const result = await oController.getLatLongbyCEPeNumero(req.params.numero, req.params.cep);
-	
+
 		res.status(result.statusCode).send({
 			success: result.success,
 			body: result.value
 		});
 	} catch (error) {
-		res.status(error.statusCode).send({
-			success: false,
-			message: error.message
-		})
+		next(error)
 	}
 });
 
 // RF 02: O sistema deve exibir informações de cada bairro. e RF 03: O sistema deve apresentar indicadores como: território, socioeconômico e população, etc.
-router.get('/pesquisar', async (req, res) => {
-    /* #swagger.description = 'Recebe um CEP e retorna dados básicos sobre o bairro em que está localizado.'
+router.get('/pesquisar', async (req, res, next) => {
+	/* #swagger.description = 'Recebe um CEP e retorna dados básicos sobre o bairro em que está localizado.'
 
 	*/
 	try {
 		const result = await oController.getInfobyCEP(req.query.cep)
-	
+
 		res.status(result.statusCode).send({
 			success: result.success,
 			body: result.value
 		});
 	} catch (error) {
-		res.status(error.statusCode).send({
-			success: false,
-			message: error.message
-		})
+		next(error)
 	}
 });
 
 //RF 01: Comparar dois bairros
-router.post('/comparar', async (req, res) => {
+router.post('/comparar', async (req, res, next) => {
 	/*  #swagger.requestBody = {
 			required: true,
 			schema: {$ref: "#/components/schemas/comparadorSchema2"}
@@ -75,22 +84,19 @@ router.post('/comparar', async (req, res) => {
 		resultados das comparações entre os indicadores e as distâncias entre as localidades.'
 	*/
 	try {
-		const result = await oController.comparar(req.body.origem, req.body.destino, req.body.localDeInteresse)
-	
+		const result = await oController.comparar(req.body.origem, req.body.destino, req.body.localInteresse)
+
 		res.status(result.statusCode).send({
 			success: result.success,
 			body: result.value
 		});
 	} catch (error) {
-		res.status(error.statusCode).send({
-			success: false,
-			message: error.message
-		})
+		next(error)
 	}
 });
 
 // RF 01: Comparar dois bairros e RF 04 - O sistema deve consumir dados de APIs públicas ou datasets estáticos pré-processados.
-router.post('/calcular-distancia', async (req, res) => {
+router.post('/calcular-distancia', async (req, res, next) => {
 	/*  #swagger.requestBody = {
 			required: true,
 			schema: {$ref: "#/components/schemas/comparadorSchema"}
@@ -99,16 +105,13 @@ router.post('/calcular-distancia', async (req, res) => {
 	*/
 	try {
 		const result = await oController.getDistancia(req.body.origem, req.body.destino)
-	
+
 		res.status(result.statusCode).send({
 			success: result.success,
 			body: result.value
 		});
 	} catch (error) {
-		res.status(error.statusCode).send({
-			success: false,
-			message: error.message
-		})
+		next(error)
 	}
 });
 

@@ -11,6 +11,16 @@
     }
   ],
   "paths": {
+    "/bairros": {
+      "get": {
+        "description": "Retorna dados básicos de todos bairros",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/bairro/{id}": {
       "get": {
         "description": "Recebe o id de um bairro e retorna dados básicos",
@@ -214,7 +224,7 @@
               "cep"
             ]
           },
-          "localDeInteresse": {
+          "localInteresse": {
             "type": "object",
             "properties": {
               "numero": {
@@ -235,7 +245,7 @@
         "required": [
           "origem",
           "destino",
-          "localDeInteresse"
+          "localInteresse"
         ],
         "xml": {
           "name": "comparadorSchema2"

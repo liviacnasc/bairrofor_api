@@ -1,7 +1,7 @@
 import viaCepAPI from '../../data/integrations/viaCepAPI.js';
 import orsAPI from '../../data/integrations/openRouteServiceAPI.js';
 import nominatimAPI from '../../data/integrations/nominatimAPI.js';
-import { respostaErroPadrao, respostaSucesso } from '../../helpers/responses.js';
+import { AppError, respostaErroPadrao, respostaSucesso } from '../../helpers/responses.js';
 
 //closure
 
@@ -24,7 +24,8 @@ export default function integrationService() {
             const result = await viaCep.getNomeRuaByCep(cep);
 
             if(!result.success) {
-                return respostaErroPadrao(result.statusCode, result.message)
+                console.log("ERRO result:", result);
+                throw new AppError(result.message, result.statusCode)
             }
             
             // a API Nominatim tem uma limitação de 1 requisição por segundo
@@ -33,7 +34,7 @@ export default function integrationService() {
             const response = await nominatim.getLocalizacao(numero, result.value.rua);
             
             if(!response.success) {
-                return respostaErroPadrao(response.statusCode, response.message)
+                throw new AppError(response.message, response.statusCode)
             }
 
             return respostaSucesso(response.statusCode,response.value);
@@ -43,12 +44,12 @@ export default function integrationService() {
             const carro = await ors.getDistanciaPorCarro(origem, destino)
 
             if(!carro.success){
-                return respostaErroPadrao(carro.statusCode, carro.message)
+                throw new AppError(carro.message, carro.statusCode)
             }
             const pe = await ors.getDistanciaAPe(origem, destino)
 
             if(!pe.success){
-                return respostaErroPadrao(pe.statusCode, pe.message)
+                throw new AppError(pe.message, pe.statusCode)
             }
 
             return respostaSucesso(200, {

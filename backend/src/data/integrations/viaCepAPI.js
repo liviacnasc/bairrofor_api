@@ -1,5 +1,5 @@
 import axios from "axios";
-import { respostaErroPadrao, respostaSucesso } from "../../helpers/responses.js";
+import { AppError, respostaErroPadrao, respostaSucesso } from "../../helpers/responses.js";
 
 export default function viaCepAPI() {
 
@@ -10,24 +10,32 @@ export default function viaCepAPI() {
 		async getNomeRuaByCep(cep) {
 			try {
 				const response = await axios.get(`${baseURL}/${cep}/json`);
-					
+				
+				if(Number(response.data.ibge) != 2304400){
+					return respostaErroPadrao(502, "Algum dos endereços inseridos está incorreto ou não pertence à cidade de Fortaleza.")
+				}
+
 				return respostaSucesso(response.status, {
 					bairro: response.data.bairro, 
-					rua: response.data.logradouro
+					rua: response.data.logradouro,
 				})
 				
 			} catch (error) {
-				return respostaErroPadrao(error.response.status, error.message)
+				throw new AppError(error.message, error.response.status)
 			}
 		},
 
 		async getBairroByCep(cep) {
 			try {
 				const response = await axios.get(`${baseURL}/${cep}/json`);
+
+				if(Number(response.data.ibge) != 2304400){
+					return respostaErroPadrao(502, "Algum dos endereços inseridos está incorreto ou não pertence à cidade de Fortaleza.")
+				}
 				
 				return respostaSucesso(response.status, response.data.bairro)
 			} catch (error) {
-                return respostaErroPadrao(error.response.status, error.message)
+                throw new AppError(error.message, error.response.status)
 			}
 		},
 
