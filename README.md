@@ -25,15 +25,37 @@
 git clone https://github.com/liviacnasc/bairrofor_api.git
 cd bairrofor_api
 ```
+**2. Rodar o Projeto Localmente**
 
-**2. Instalar dependências**
+Em um terminal lance os seguintes comandos para o backend, nessa ordem:
+
 ```
+cd backend
+
 npm install
+
+npm run db
+
+npm start
 ```
+
+A aplicação estará disponível em: `http://localhost:8080`
+
+Em um outro terminal, lance os seguintes comandos para rodar o frontend:
+
+```
+cd frontend
+
+npm install
+
+npm run dev
+
+```
+A aplicação estará disponível em: `http://localhost:5173`
 
 **3. Configurar variáveis de ambiente**
 
-Crie um arquivo .env na raiz do projeto e adicione:
+Na pasta backend, crie um arquivo .env e adicione:
 
 ```
 # Porta da aplicação
@@ -48,30 +70,19 @@ DATABASE_URL='postgres://{db_username}:{db_password}@{host}:{port}/{db_name}'
 
 OPENROUTESERVICE_API_KEY=''
 ```
-Altere os valores conforme sua configuração local.
 
-**4. Popular banco de dados**
-
-```
-npm run db
-```
-
-**5. Rodar o servidor**
+Na pasta frontend, crie um arquivo .env e adicione:
 
 ```
-npm start
-```
+# Crie uma conta em https://cloud.maptiler.com para criar a chave da api
+VITE_MAPTILE_API_KEY='kF46ub8lQg2DgQK4NGQY'
 
-
-A API estará disponível em:
-
-```
-http://localhost:8080
+VITE_BACKEND_URL='http://localhost:8080'
 ```
 
 **6. Testar a aplicação**
 
-Para rodar os testes unitários:
+Para rodar os testes unitários no backend:
 
 ```
 npm run test
@@ -134,6 +145,9 @@ Projeto será exclusivo para a cidade de Fortaleza.
 A arquitetura em camadas será aplicada no projeto, de forma que seja um desenvolvimento rápido, mas que mantenha as responsabilidades dos componentes devidamente separadas.
 ### Tecnologias propostas
 
+- Frontend com Vite + React
+
+Backend:
 - Runtime: Node.js
 - Framework: Express
 - Cliente http: Axios
