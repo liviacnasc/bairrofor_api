@@ -164,5 +164,24 @@ Ana Lívia  | Desenvolvedora    |
 Fernando Henrique | Documentação |
 Rebeca Samia | Design Web e Mobile |
 
+## Validação com Público-Alvo Específico
+
+Como exigido na atividade, o projeto passou por um processo formal de validação com um público-alvo real e identificável.
+
+### Público-Alvo
+Pessoas que estão em busca de um novo local para morar, especificamente na cidade de Fortaleza.
+
+### Processo de Validação
+
+- Método: Vídeo demonstrativo + formulário Google Forms  
+- Total de respostas: **X**
+
+### Principais Feedbacks
+- 🟢 Pontos positivos:  
+  -  
+- 🔧 Melhorias sugeridas:  
+  -  
+
+Toda a documentação está disponível na pasta [`validation/`](validation/).
 
 https://youtu.be/G4QCooI-i1c
